@@ -29,15 +29,94 @@ from src.visualization.strategy_timeline import plot_strategy_timeline
 
 
 def main():
-    sessions = get_sessions(year=2023, country="Bahrain", session_name="Race")
+    # =========================
+    # SESSION SELECTION (SAFE)
+    # =========================
+    year_input = input("Enter year (e.g. 2023 and onwards): ").strip()
 
-    if not sessions:
-        print("No session found!")
+    try:
+        year = int(year_input)
+    except ValueError:
+        print("Invalid year.")
         return
 
-    session = sessions[0]
+    sessions = get_sessions(year=year)
+
+    if not sessions:
+        print("No sessions found!")
+        return
+
+    # ---- Get unique countries ----
+    countries = sorted(
+        set(s["country_name"] for s in sessions if s.get("country_name"))
+    )
+
+    print("\nAvailable countries:")
+    for i, country in enumerate(countries, start=1):
+        print(f"{i}. {country}")
+
+    country_choice = input("\nChoose country number: ").strip()
+
+    try:
+        country_index = int(country_choice) - 1
+        country_selected = countries[country_index]
+    except (ValueError, IndexError):
+        print("Invalid country selection.")
+        return
+
+    # ---- Filter sessions by country ----
+    country_sessions = [
+        s for s in sessions if s.get("country_name") == country_selected
+    ]
+
+    # ---- Get session types ----
+    session_types = sorted(
+        set(s["session_name"] for s in country_sessions if s.get("session_name"))
+    )
+
+    print("\nAvailable session types:")
+    for i, session_type in enumerate(session_types, start=1):
+        print(f"{i}. {session_type}")
+
+    session_choice = input("\nChoose session type number: ").strip()
+
+    try:
+        session_index = int(session_choice) - 1
+        session_selected = session_types[session_index]
+    except (ValueError, IndexError):
+        print("Invalid session type selection.")
+        return
+
+    # ---- Filter final sessions ----
+    final_sessions = [
+        s for s in country_sessions if s.get("session_name") == session_selected
+    ]
+
+    if not final_sessions:
+        print("No matching sessions found.")
+        return
+
+    print("\nAvailable sessions:")
+    for i, s in enumerate(final_sessions, start=1):
+        print(
+            f"{i}. {s.get('session_name')} | "
+            f"{s.get('country_name')} | "
+            f"{s.get('year')} | "
+            f"{s.get('date_start')}"
+        )
+
+    final_choice = input("\nChoose session number: ").strip()
+
+    try:
+        final_index = int(final_choice) - 1
+        session = final_sessions[final_index]
+    except (ValueError, IndexError):
+        print("Invalid session choice.")
+        return
+
     session_key = session["session_key"]
 
+    print("\nSelected Session:")
     print("Session:", session["session_name"])
     print("Year:", session["year"])
     print("Country:", session["country_name"])
@@ -170,7 +249,6 @@ def main():
             story = build_strategy_story(driver_stints, driver_name)
             print("\nStrategy Summary:")
             print(story)
-
     else:
         print("\nNo stint data found for this session.")
 
