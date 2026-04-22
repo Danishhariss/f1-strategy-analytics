@@ -30,7 +30,7 @@ from src.visualization.strategy_timeline import plot_strategy_timeline
 
 def main():
     # =========================
-    # SESSION SELECTION (SAFE)
+    # SESSION SELECTION 
     # =========================
     year_input = input("Enter year (e.g. 2023 and onwards): ").strip()
 

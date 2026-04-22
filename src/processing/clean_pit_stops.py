@@ -5,7 +5,6 @@ def clean_pit_stops(pit_json):
     if pit_json is None:
         return pd.DataFrame()
 
-    # ⚠️ THIS IS YOUR MAIN FIX
     if isinstance(pit_json, dict):
         print("\nUnexpected pit stop response:")
         print(pit_json)
