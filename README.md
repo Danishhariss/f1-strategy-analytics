@@ -1,9 +1,3 @@
-Good move — README is what recruiters actually read first 👀
-I’ll give you a **clean, professional one** you can copy-paste.
-
----
-
-# 📄 README.md (COPY THIS)
 
 ```markdown
 # 🏎️ F1 Strategy Analytics
