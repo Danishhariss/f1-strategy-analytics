@@ -16,7 +16,7 @@ def clean_positions(positions_json):
     df["date"] = pd.to_datetime(df["date"])
 
     # =========================
-    # 🔥 CREATE FAKE LAP NUMBER
+    # # CREATE DERIVED LAP INDEX (based on time order)
     # =========================
     df = df.sort_values(["driver_number", "date"])
 

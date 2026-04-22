@@ -54,7 +54,7 @@ def plot_position_trends(
                 stints_df["driver_number"] == driver_number
             ].dropna(subset=["lap_start"]).sort_values("lap_start")
 
-            # Debug print for now
+
             print(f"\nStints for {driver_name}:")
             print(driver_stints[["stint_number", "compound", "lap_start", "lap_end", "stint_length"]])
 
